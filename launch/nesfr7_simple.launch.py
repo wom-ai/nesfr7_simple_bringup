@@ -1,5 +1,5 @@
 import launch
-from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, TimerAction
 from launch.substitutions import Command, LaunchConfiguration, PathJoinSubstitution, TextSubstitution, FindExecutable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 import launch_ros
@@ -63,6 +63,6 @@ def generate_launch_description():
         nesfr_system_exec,
         joy_node,
         teleop_node,
-        bridge_node,
-        nesfr7_arm_common_launch,
+        TimerAction(period=1.0, actions=[bridge_node,]),
+        TimerAction(period=1.0, actions=[nesfr7_arm_common_launch,]),
     ])
