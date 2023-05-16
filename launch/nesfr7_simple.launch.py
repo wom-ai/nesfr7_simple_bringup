@@ -51,6 +51,7 @@ def generate_launch_description():
                     FindExecutable(name='nesfr_system'),
                     ' --config /usr/local/share/nesfr_system/config/main.config',
                 ]],
+            name='nesfr_system',
             shell=True,
             output='both'
             )
