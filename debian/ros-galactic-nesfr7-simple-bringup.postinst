@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -x
+
+ln -s -f /opt/ros/galactic/lib/nesfr7_simple_bringup/nesfr7.sh /usr/local/bin/nesfr7.sh
+ln -s -f /opt/ros/galactic/share/nesfr7_simple_bringup/nesfr7.service /usr/lib/systemd/system/nesfr7.service
+
+#systemctl daemon-reload
+systemctl enable nesfr7.service
+systemctl start  nesfr7.service

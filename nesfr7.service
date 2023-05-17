@@ -1,0 +1,18 @@
+[Unit]
+Description=NESFR7
+After=network.target
+
+[Service]
+#
+# references:
+#  - https://answers.ros.org/question/367935/systemd-does-not-work-with-ros2/
+#
+Environment="HOME=root"
+#EnvironmentFile=/etc/default/
+ExecStart=/usr/local/bin/nesfr7.sh
+RestartSec=15
+Restart=always
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target

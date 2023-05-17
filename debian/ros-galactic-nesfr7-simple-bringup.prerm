@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -x
+
+systemctl stop     nesfr7.service
+systemctl disable  nesfr7.service
+
+rm -f /usr/local/bin/nesfr7.sh
+rm -f /usr/lib/systemd/system/nesfr7.service
