@@ -8,7 +8,11 @@
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <!-- reference: https://roboticsbackend.com/ros2-package-for-both-python-and-cpp-nodes/ -->
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
 
+  <!-- reference: https://roboticsbackend.com/ros2-package-for-both-python-and-cpp-nodes/ -->
+  <depend>rclpy</depend>
   <depend>nesfr_bridge</depend>
   <depend>nesfr_teleop</depend>
   <depend>joy</depend>

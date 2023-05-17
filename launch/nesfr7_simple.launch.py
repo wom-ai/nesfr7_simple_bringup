@@ -12,7 +12,7 @@ def generate_launch_description():
     joy_node = launch_ros.actions.Node(
         package='joy',
         executable='joy_node',
-        name='joy_node',
+        name='xbox_joy_node',
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
         namespace=LaunchConfiguration('namespace'),
         remappings = [
@@ -20,6 +20,12 @@ def generate_launch_description():
             ('joy/set_feedback', 'xbox_joy/set_feedback'),
             ]
     )
+    joy_switch_node = launch_ros.actions.Node(
+        package='nesfr7_simple_bringup',
+        namespace=LaunchConfiguration('namespace'),
+        executable='joy_switch.py',
+        output='both')
+
     teleop_node = launch_ros.actions.Node(
         package='nesfr_teleop',
         executable='nesfr_teleop_node',
@@ -63,6 +69,7 @@ def generate_launch_description():
                                              description='Flag to enable use_sim_time'),
         nesfr_system_exec,
         joy_node,
+        joy_switch_node,
         teleop_node,
         TimerAction(period=1.0, actions=[bridge_node,]),
         TimerAction(period=1.0, actions=[nesfr7_arm_common_launch,]),

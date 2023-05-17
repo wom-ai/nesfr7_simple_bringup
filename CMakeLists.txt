@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(nesfr_bridge REQUIRED)
 find_package(nesfr_teleop REQUIRED)
 find_package(joy REQUIRED)
@@ -14,6 +15,19 @@ find_package(nesfr_arm_bringup REQUIRED)
 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
+
+#
+# reference: https://roboticsbackend.com/ros2-package-for-both-python-and-cpp-nodes/
+#
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+
+# Install Python executables
+install(PROGRAMS
+  scripts/joy_switch.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
