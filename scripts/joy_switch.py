@@ -2,16 +2,18 @@
 
 import rclpy
 from rclpy.node import Node
-
 from sensor_msgs.msg import Joy
+
+from enum import IntEnum
+
 
 SPECIAL_BUTTON = 11
 
-from enum import IntEnum
 
 class JoystickState(IntEnum):
     XBOX = 0
     VR = 1
+
 
 class NesfrVRJoySwitch(Node):
 
@@ -61,19 +63,19 @@ class NesfrVRJoySwitch(Node):
     def check_xbox_joy(self):
         duration = self.get_clock().now() - self.last_xbox_joy_stamp
 
-        if (duration.nanoseconds/1e9) > 2.0: # No input from Xbox
+        if (duration.nanoseconds/1e9) > 2.0:  # No input from Xbox
             if self.xbox_connected:
                 self.get_logger().warning('No input from XBox in 2 seconds')
             self.xbox_connected = False
             self.state = JoystickState.VR
         else:
-            if self.xbox_joy_off: # Turn off Xbox Inputs by Special Key
+            if self.xbox_joy_off:  # Turn off Xbox Inputs by Special Key
                 self.state = JoystickState.VR
             else:
                 self.state = JoystickState.XBOX
 
     def listener_callback_xbox(self, msg):
-        #self.get_logger().info('xbox: {}'.format(msg))
+        #   self.get_logger().info('xbox: {}'.format(msg))
         if not self.xbox_connected:
             self.get_logger().warning('XBox Connected')
         self.xbox_connected = True
@@ -81,7 +83,7 @@ class NesfrVRJoySwitch(Node):
         if self.is_click(msg.buttons[SPECIAL_BUTTON]):
             self.xbox_joy_off = not self.xbox_joy_off
             print("self.xbox_joy_off={}".format(self.xbox_joy_off))
-            if self.xbox_joy_off: # Turn off Xbox Inputs by Special Key
+            if self.xbox_joy_off:  # Turn off Xbox Inputs by Special Key
                 self.state = JoystickState.VR
             else:
                 self.state = JoystickState.XBOX
@@ -103,7 +105,7 @@ class NesfrVRJoySwitch(Node):
             pass
 
     def listener_callback_vr(self, msg):
-        #self.get_logger().info('vr: {}'.format(msg))
+        #   self.get_logger().info('vr: {}'.format(msg))
 
         if self.state == JoystickState.VR:
             self.publisher_.publish(msg)
