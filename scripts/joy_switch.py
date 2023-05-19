@@ -88,10 +88,19 @@ class NesfrVRJoySwitch(Node):
             self.get_logger().info("JoystickState={}".format(int(self.state)))
         self.last_xbox_joy_stamp = self.get_clock().now()
 
-        if self.state == JoystickState.VR:
-            pass
+        if self.state == JoystickState.XBOX:
+            #
+            # This is workaround against the issue #1 of XBox controller firmware v3.1.1221.0
+            # initial values are non-zero even without any inputa
+            #
+            if msg.axes[0] == 1.0 and msg.axes[1] == 1.0 and msg.axes[2] == 1.0 and msg.axes[3] == 1.0:
+                self.get_logger().info('xbox: {}'.format(msg))
+                self.get_logger().fatal('These input values cannot be generated from normal controllers. System is ignoring them.')
+                pass
+            else:
+                self.publisher_.publish(msg)
         else:
-            self.publisher_.publish(msg)
+            pass
 
     def listener_callback_vr(self, msg):
         #self.get_logger().info('vr: {}'.format(msg))
