@@ -42,6 +42,17 @@ def generate_launch_description():
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
         namespace=LaunchConfiguration('namespace')
     )
+    bros_launch = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                PathJoinSubstitution([
+                    FindPackageShare('bstar_ros'), 'launch', 'nesfr7_01',
+                    'nesfr7_01.launch.py'
+                    ])
+                ]),
+            launch_arguments={
+                'namespace': LaunchConfiguration('namespace')
+                }.items()
+            )
     nesfr7_arm_common_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 PathJoinSubstitution([
@@ -72,6 +83,7 @@ def generate_launch_description():
         joy_node,
         joy_switch_node,
         teleop_node,
-        TimerAction(period=1.0, actions=[bridge_node]),
+        #TimerAction(period=1.0, actions=[bridge_node]),
+        TimerAction(period=1.0, actions=[bros_launch]),
         TimerAction(period=1.0, actions=[nesfr7_arm_common_launch]),
     ])
