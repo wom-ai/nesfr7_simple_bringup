@@ -13,7 +13,7 @@ find_package(nesfr_teleop REQUIRED)
 find_package(joy REQUIRED)
 find_package(nesfr_arm_bringup REQUIRED)
 
-install(DIRECTORY launch
+install(DIRECTORY launch rviz
   DESTINATION share/${PROJECT_NAME})
 
 #
