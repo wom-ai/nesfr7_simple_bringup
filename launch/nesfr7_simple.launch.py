@@ -10,6 +10,9 @@ os.environ['RCUTILS_COLORIZED_OUTPUT'] = '1'
 
 
 def generate_launch_description():
+
+    remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
+
     joy_node = launch_ros.actions.Node(
         package='joy',
         executable='joy_node',
@@ -40,7 +43,8 @@ def generate_launch_description():
         executable='nesfr_ros_bridge',
         name='nesfr_ros_bridge',
         parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
-        namespace=LaunchConfiguration('namespace')
+        namespace=LaunchConfiguration('namespace'),
+        remappings=remappings
     )
     bros_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
